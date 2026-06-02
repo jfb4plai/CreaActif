@@ -82,7 +82,9 @@ Aucun préambule. Aucune transition. Réponds directement avec le texte reformul
 
     if (action === 'validate_consigne' || action === 'generate_activity') {
       try {
-        return res.json(JSON.parse(text))
+        // Haiku wraps JSON in ```json ... ``` sometimes — strip it
+        const cleaned = text.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '').trim()
+        return res.json(JSON.parse(cleaned))
       } catch {
         return res.status(502).json({ error: 'JSON invalide', raw: text })
       }
