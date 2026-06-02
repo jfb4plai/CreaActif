@@ -1,11 +1,10 @@
 import { useWizard } from '../../hooks/useWizard'
 
 export default function Step2Mode() {
-  const { update, next } = useWizard()
+  const { update } = useWizard()
 
   function choose(mode) {
     update({ contentMode: mode })
-    next()
   }
 
   return (
