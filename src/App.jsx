@@ -2,12 +2,16 @@ import { useState, useEffect } from 'react'
 import { supabase } from './lib/supabase'
 import Auth from './components/Auth'
 import WizardShell from './components/wizard/WizardShell'
+import Step1Identity from './components/wizard/Step1Identity'
 import { useWizard } from './hooks/useWizard'
 
 function WizardContent() {
   const { step } = useWizard()
   return (
-    <p className="text-gray-400 text-sm pb-20">Étape {step} — à venir</p>
+    <>
+      {step === 1 && <Step1Identity />}
+      {step > 1 && <p className="text-gray-400 text-sm pb-20">Étape {step} — à venir</p>}
+    </>
   )
 }
 
