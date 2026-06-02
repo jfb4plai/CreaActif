@@ -44,6 +44,8 @@ export default function Step2AIForm() {
         ...q,
         id: q.id || `q-${Date.now()}-${i}`,
         level: 1,
+        correct: q.correct !== undefined ? String(q.correct) : '',
+        options: (q.options || []).map(String),
       }))
       const feedbacks = {}
       if (json.feedbackDrafts) {
