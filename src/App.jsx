@@ -1,6 +1,15 @@
 import { useState, useEffect } from 'react'
 import { supabase } from './lib/supabase'
 import Auth from './components/Auth'
+import WizardShell from './components/wizard/WizardShell'
+import { useWizard } from './hooks/useWizard'
+
+function WizardContent() {
+  const { step } = useWizard()
+  return (
+    <p className="text-gray-400 text-sm pb-20">Étape {step} — à venir</p>
+  )
+}
 
 export default function App() {
   const [session, setSession] = useState(null)
@@ -17,5 +26,10 @@ export default function App() {
 
   if (loading) return null
   if (!session) return <Auth />
-  return <div className="min-h-screen bg-gray-50"><p className="p-8 text-plai-teal font-semibold">Connecté — wizard à venir</p></div>
+
+  return (
+    <WizardShell>
+      <WizardContent />
+    </WizardShell>
+  )
 }
