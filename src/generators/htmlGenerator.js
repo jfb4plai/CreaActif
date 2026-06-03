@@ -97,7 +97,7 @@ function renderQuestion(q, aus, feedbackText, qIndex, total) {
       <div class="question-text">${audioBtn}${renderBold(q.text || '')}</div>
       <div id="opts-${q.id}">${optionsHTML}</div>
       <div class="feedback" id="fb-${q.id}">${feedbackText || ''}</div>
-      <button class="validate-btn" onclick="validateQuestion('${q.id}', '${q.correct}', '${q.type}')">Valider</button>
+      <button class="validate-btn" id="btn-${q.id}" onclick="validateQuestion('${q.id}', '${q.correct}', '${q.type}')">Valider</button>
     </div>`
 }
 
@@ -131,6 +131,19 @@ function validateQuestion(qId, correct, type) {
   }
   if (fb) fb.classList.add('visible');
   window._answers[qId] = ok;
+
+  // One-shot : désactiver le bouton Valider après la première réponse
+  const btn = document.getElementById('btn-' + qId);
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = 'Réponse enregistrée.';
+    btn.style.background = '#9ca3af';
+    btn.style.cursor = 'not-allowed';
+  }
+  // Désactiver les options pour empêcher toute modification
+  document.querySelectorAll('#opts-' + qId + ' .option').forEach(o => {
+    o.style.pointerEvents = 'none';
+  });
 }
 
 function speakText(text) {

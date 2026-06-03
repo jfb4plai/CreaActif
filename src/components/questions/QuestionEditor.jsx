@@ -1,6 +1,6 @@
-import { QUESTION_TYPES } from './questionTypes'
+import { QUESTION_TYPES, MOTOR_TYPES } from './questionTypes'
 
-export default function QuestionEditor({ question, onChange, onDelete, levelCount }) {
+export default function QuestionEditor({ question, onChange, onDelete, levelCount, hasDyspraxie }) {
   const typeDef = QUESTION_TYPES.find(t => t.id === question.type)
 
   function setField(key, value) {
@@ -70,6 +70,54 @@ export default function QuestionEditor({ question, onChange, onDelete, levelCoun
 
       {question.type === 'short' && (
         <p className="text-xs text-amber-600 bg-amber-50 rounded px-2 py-1">Réponse courte — désactivée automatiquement pour le profil dyspraxie.</p>
+      )}
+
+      {MOTOR_TYPES.includes(question.type) && hasDyspraxie && (
+        <div className="bg-orange-50 border border-orange-200 rounded-lg px-3 py-2 space-y-1">
+          <p className="text-xs font-semibold text-orange-700">⚠ Avertissement — Précision motrice requise</p>
+          <p className="text-xs text-orange-600">Ce type de question nécessite un contrôle fin du pointage ou du tracé. Un élève porteur de dyspraxie/TDC est dans votre public cible — ce type est déconseillé. Remplacez par QCU ou Texte à trous.</p>
+          <p className="text-xs text-orange-500 italic">À vérifier dans le corpus RISS : coordination visuomotrice et TDC (vérification RISS à effectuer avant publication).</p>
+        </div>
+      )}
+
+      {question.type === 'visual_match' && (
+        <div className="space-y-2">
+          <p className="text-xs font-semibold text-gray-500">Paires à relier (gauche → droite)</p>
+          <p className="text-xs text-gray-400">Ajoutez les paires. L'élève trace un trait entre chaque élément gauche et son correspondant droit.</p>
+          {(question.options || []).map((opt, i) => (
+            <div key={i} className="flex gap-2 items-center">
+              <span className="text-xs text-gray-400 w-4">{i + 1}.</span>
+              <input value={opt} onChange={e => setOption(i, e.target.value)}
+                placeholder={i % 2 === 0 ? 'Élément gauche' : 'Élément droit'}
+                className="flex-1 border rounded px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-plai-teal" />
+            </div>
+          ))}
+          <button onClick={addOption} className="text-xs text-plai-teal underline">+ Ajouter une paire</button>
+        </div>
+      )}
+
+      {question.type === 'drag_drop' && (
+        <div className="space-y-2">
+          <p className="text-xs font-semibold text-gray-500">Éléments à déplacer vers les zones cibles</p>
+          <p className="text-xs text-gray-400">Ajoutez les éléments. L'élève les glisse dans le bon ordre dans les zones de dépôt.</p>
+          {(question.options || []).map((opt, i) => (
+            <div key={i} className="flex gap-2 items-center">
+              <span className="text-xs text-gray-400 w-4">{i + 1}.</span>
+              <input value={opt} onChange={e => setOption(i, e.target.value)}
+                placeholder={`Élément ${i + 1}`}
+                className="flex-1 border rounded px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-plai-teal" />
+              <input
+                type="radio"
+                name={`correct-${question.id}`}
+                checked={question.correct === String(i)}
+                onChange={() => setField('correct', String(i))}
+                title="Position correcte = 1er"
+                className="mt-0.5"
+              />
+            </div>
+          ))}
+          <button onClick={addOption} className="text-xs text-plai-teal underline">+ Ajouter un élément</button>
+        </div>
       )}
 
       {levelCount > 1 && (

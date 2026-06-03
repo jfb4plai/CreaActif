@@ -14,6 +14,7 @@ export default function Step3Questions() {
         questions={data.questions || []}
         onChange={questions => update({ questions })}
         levelCount={data.levelCount || 1}
+        hasDyspraxie={(data.profiles || []).includes('dyspraxie')}
       />
     </div>
   )

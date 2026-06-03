@@ -2,7 +2,7 @@ import { useState } from 'react'
 import QuestionEditor from './QuestionEditor'
 import { QUESTION_TYPES, DEFAULT_QUESTION } from './questionTypes'
 
-export default function QuestionList({ questions, onChange, levelCount }) {
+export default function QuestionList({ questions, onChange, levelCount, hasDyspraxie }) {
   const [showTypeMenu, setShowTypeMenu] = useState(false)
 
   function addQuestion(type) {
@@ -27,6 +27,7 @@ export default function QuestionList({ questions, onChange, levelCount }) {
           onChange={u => updateQuestion(q.id, u)}
           onDelete={() => deleteQuestion(q.id)}
           levelCount={levelCount}
+          hasDyspraxie={hasDyspraxie}
         />
       ))}
 
