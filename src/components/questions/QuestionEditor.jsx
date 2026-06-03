@@ -74,9 +74,10 @@ export default function QuestionEditor({ question, onChange, onDelete, levelCoun
 
       {MOTOR_TYPES.includes(question.type) && hasDyspraxie && (
         <div className="bg-orange-50 border border-orange-200 rounded-lg px-3 py-2 space-y-1">
-          <p className="text-xs font-semibold text-orange-700">⚠ Avertissement — Précision motrice requise</p>
-          <p className="text-xs text-orange-600">Ce type de question nécessite un contrôle fin du pointage ou du tracé. Un élève porteur de dyspraxie/TDC est dans votre public cible — ce type est déconseillé. Remplacez par QCU ou Texte à trous.</p>
-          <p className="text-xs text-orange-500 italic">À vérifier dans le corpus RISS : coordination visuomotrice et TDC (vérification RISS à effectuer avant publication).</p>
+          <p className="text-xs font-semibold text-orange-700">⚠ Déconseillé — Élève porteur de dyspraxie/TDC dans votre public</p>
+          <p className="text-xs text-orange-600">Ce type nécessite un contrôle fin du pointage ou du tracé. Le TDC se caractérise par une "action motrice imprécise et plus lente" et un échec aux épreuves de coordination visuomotrice — la tâche crée une surcharge sans lien avec l'objectif d'apprentissage.</p>
+          <p className="text-xs text-orange-500">Remplacez par QCU ou Texte à trous pour cet élève.</p>
+          <p className="text-xs text-gray-400 italic">Sources RISS : Azzimani (dumas-04568020, 2023) · Richard (dumas-04242258, 2021) · Vaivre-Douret et al., Inserm (hal-03346364, 2021)</p>
         </div>
       )}
 
